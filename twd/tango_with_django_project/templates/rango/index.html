@@ -1,23 +1,51 @@
-<!DOCTYPE html>
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
 
-{% load staticfiles %} <!-- New line -->
+{% block title_block %}
+{% endblock %}
 
-<html>
-    <head>
-        <title>Rango</title>
-    </head>
-
-    <body>
-        <h1>Rango says...</h1>
+{% block body_block %}
+    <h1>Rango says...</h1>
         <div>
-            hey there partner </br>   
+            {% if user.is_authenticated %}
+            howdy {{ user.username }}!
+            {% else %}
+            hey there partner!
+            {% endif %}</br>   
             <strong>{{ boldmessage }} </strong>
         </div>
+    <h2>Most liked categories</h2>
         <div>
-            <a href="/rango/about">About</a></br>
-            <img src="{% static 'images/tp.png' %}" 
-                 alt='the hero we needed'/> <!-- New line -->
+        {% if categories %}
+            <ul>
+                {% for category in categories %}
+                <li>
+                    <a href="{% url 'rango:show_category' category.slug %}">{{ category.name }}</a>
+                        <!-- "{% url 'rango:add_page' category.slug %}" -->
+                    <!-- <a href="/rango/category/{{category.slug}}/">{{ category.name }}</a> -->
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <strong>There are no categories present.</strong>
+        {% endif %}
         </div>
-    </body>
+    <h2>Most viewed pages</h2>
+        <div>
+            {% if pages %}
+                <ul>
+                    {% for page in pages %}
+                    <li>
+                        <!-- {{page.name}} -->
+                        <a href="{{page.url}}">{{ page.title }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <strong>There are no pages present.</strong>
+            {% endif %}
+        </div>
+    <img src="{% static 'images/tp.png' %}" alt='the hero we needed'/> <!-- New line -->
+{% endblock %}
 
-</html>
+
