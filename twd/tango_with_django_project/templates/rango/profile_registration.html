@@ -1,0 +1,34 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Registration - profile
+{% endblock %}
+
+{% block body_block %}
+<div class="jumbotron p-4">
+    <div class="container">
+        <h1 class="jumbotron-heading">Registration - pt. 2</h1>
+        <div>
+            {% if profile_completed %}
+                <h2 class="h2">Thanks for filling out your profile!
+                </h2>
+            {% else %}
+                <h2 class="h2">
+                    Thank you for registering! - now fill out your profile.
+                </h2>
+                <form id="user_form" method="post" action = "{%url 'rango:initialize_profile' %}" enctype = "multipart/form-data">
+                    {% csrf_token %}
+                    {{ profile_form.as_p }}
+                    <input type='submit' name = 'submit' value='Create Profile'/>
+                </form>
+            {% endif %}
+            <a href = "{%url 'rango:index' %}">Return to homepage</a></br>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+<!-- <h1></h1>
+Rango says: <strong></strong> -->
+

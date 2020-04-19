@@ -6,9 +6,20 @@
 {% endblock %}
 
 {% block body_block %}
+<div class="jumbotron p-4">
+    <div class="comtainer">
+        <h1 class="jumbotron-heading">Here is the about page</h1>
+        <div>
+            <strong> {{ boldmessage }} </strong>
+        </div>
+    </div>
+</div>
+<img src="{% static 'images/tp.png' %}" alt='the hero we needed'/> 
+<img src="{{ MEDIA_URL }}cat.jpg" alt='Picture of a Cat.'/>  
+
+<!-- 
     here is the about page.</br>
     <p>Visits: {{ visits}} </p>   
-    <strong> {{ boldmessage }} </strong>
-    <img src="{% static 'images/tp.png' %}" alt='the hero we needed'/> <!-- New line -->
-    <img src="{{ MEDIA_URL }}cat.jpg" alt='Picture of a Cat.'/> <!-- New line -->
+    <strong> {{ boldmessage }} </strong> -->
+
 {% endblock %}
