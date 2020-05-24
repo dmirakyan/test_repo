@@ -41,15 +41,91 @@ def about(request):
     context_dict['visits'] = request.session['visit']
     return render(request,'rango/about.html',context=context_dict)
 
+
+def get_category_list(max_results=0, starts_with=''): 
+    category_list = []
+    # category_list = Category.objects.filter(name__istartswith=starts_with)
+    if starts_with:
+        category_list = Category.objects.filter(name__istartswith=starts_with)
+    
+    if max_results > 0:
+        if len(category_list) > max_results:
+            category_list = category_list[:max_results] 
+    
+    return category_list
+
+class CategorySuggestionView(View): 
+    def get(self, request):
+        if 'suggestion' in request.GET:
+            suggestion = request.GET['suggestion']
+        else:
+            suggestion = ''
+
+        print(suggestion)
+        category_list = get_category_list(max_results=8, starts_with=suggestion)
+        # category_list = ['test','test2']
+        if len(category_list) == 0:
+            category_list = Category.objects.order_by('-likes')
+        return render(request, 'rango/categories.html',{'categories': category_list})
+
+class AddPageFromSearch(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        
+        title = request.GET['title']
+        url = request.GET['url']
+        category_id = request.GET['category_id']
+        
+        
+        try:
+            # category = Category.objects.get(slug=request.GET['category_name'])
+            category = Category.objects.get(id=int(category_id))
+            # slug = Category.objects.get(id=int(category_id)).values_list('slug')
+        except Category.DoesNotExist:
+            return HttpRespose('Error - category not found')
+        
+        except ValueError:
+            return HttpRespose('Error - badCategoryId')
+
+        category_name_slug = category.slug
+        # slug =  getattr(category, 'slug')
+        # category_name_slug = category.['slug']
+
+
+
+        p = Page.objects.get_or_create(category=category, title=title, url=url)
+        pages = Page.objects.filter(category=category).order_by('-views')
+
+        return render(request, 'rango/page_listing.html', {'pages': pages})
+        # return render(request, 'rango/category.html', category_name_slug=slug)
+       
+
+
 class AboutView(View):
     def get(self,request):
         context_dict = {}
 
         visitor_cookie_handler(request)
-        context_dict['visits'] = request.session['visits']
+        # context_dict['visits'] = request.session['visits']
 
         response = render(request, 'rango/about.html', context_dict)
         return response
+
+class LikeCategoryView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        category_id = request.GET['category_id']
+
+        try:
+            category = Category.objects.get(id=int(category_id))
+        except Category.DiesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+
+        category.likes = category.likes +1
+        category.save()
+        return HttpResponse(category.likes)
 
 def show_category(request, category_name_slug):
     # Create a context dictionary which we can pass

@@ -7,15 +7,19 @@
 
 {% block body_block %}
 <div class="jumbotron p-4">
-    <div class="comtainer">
+    <div class="container">
         <h1 class="jumbotron-heading">Here is the about page</h1>
         <div>
             <strong> {{ boldmessage }} </strong>
         </div>
+        <p class = "ouch"> jquery test note</p>
+        <div id="msg">Hello, I'm another Jquery example!</div>
+    <button class="btn btn-primary" onclick="alert('You clicked this using inline JavaScript. Holy shit, go you');">Click me pls</button>
+    <button class="btn btn-primary" id="about-btn"> Click me pt 2 </button>
     </div>
 </div>
 <img src="{% static 'images/tp.png' %}" alt='the hero we needed'/> 
-<img src="{{ MEDIA_URL }}cat.jpg" alt='Picture of a Cat.'/>  
+<img  src="{{ MEDIA_URL }}cat.jpg" alt='Picture of a Cat.' id="catpic"/>  
 
 <!-- 
     here is the about page.</br>

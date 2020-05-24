@@ -17,5 +17,8 @@ urlpatterns = [
     path('search/',views.search, name='search'),
     path('goto/', views.goto_url, name='goto'),
     path('initialize_profile/', views.initialize_profile, name='initialize_profile'),
-    path('prof/<username>/', views.ProfileView.as_view(), name='prof')
+    path('prof/<username>/', views.ProfileView.as_view(), name='prof'),
+    path('like_category/', views.LikeCategoryView.as_view(),name='like_category'),
+    path('suggest/', views.CategorySuggestionView.as_view(), name='suggest'),
+    path('search_add_page/', views.AddPageFromSearch.as_view(), name='search_add_page'),
 ]

@@ -10,11 +10,22 @@
 {% endblock %}
 
 {% block body_block %}
-<div class="jumbotron p-4">
+<div class="jumbotron p-4" >
     <div class="container">
         {% if category %}
         <h1 class="jumbotron-heading">{{ category.name }}</h1>
-            <div>
+        </br>
+        <div>
+            <strong id = "like_count">{{ category.likes}}</strong> likess
+            {% if user.is_authenticated %}
+            <button id = "like_btn" data-categoryid="{{category.id}}" class="btn btn-primary btn-sm" type="button">
+                <span data-feather="thumbs-up"></span>
+                Like Category
+            </button>
+            {% endif %}
+        </div>
+        <!-- <button class="btn" id="like">like</button> -->
+            <div  id="pages-listing" >
             {% if pages %}
                 <ul>
                     {% for page in pages %}
@@ -32,11 +43,6 @@
                 {%else%}
                     <strong>No pages currently in category</strong>
             {%endif%}
-                {% if user.is_authenticated %}
-                    <a href="{% url 'rango:add_page' category.slug %}">add a new page!</a>
-                {% else %}
-                    Please register to add a new page!
-                {% endif %}
             </div>
 
                 {% if user.is_authenticated %}
@@ -78,6 +84,9 @@
                                     <p class="list-group-item-text">
                                         {{ result.summary|safe|escape }}
                                     </p>
+                                    <button class="btn btn-info btn-sm rango-page-add" data-categoryid="{{category.id}}" data-pagetitle="{{result.title}}" data-pageurl="{{result.link}}"  class="btn btn-primary btn-sm" type="button">
+                                        add page
+                                    </button>
                                 </div>
                             {% endfor %}
                         </div>

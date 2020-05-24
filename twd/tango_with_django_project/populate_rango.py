@@ -42,10 +42,23 @@ def populate():
         {'title':'Flask',
         'url':'http://flask.pocoo.org',
         'views':43}]
+
+    random_pages = [
+        {'title':'Page1',
+        'url':'http://www.google.com',
+        'views':35},
+        {'title':'Page2',
+        'url':'http://www.google.com',
+        'views':30},]
     
     cats = {'Python': {'pages':python_pages,'views':128, 'likes':64},
             'Django': {'pages': django_pages, 'views':64, 'likes':32},
-            'Other Frameworks': {'pages':other_pages, 'views':32, 'likes':16}}
+            'Perl': {'pages': [],'views':64, 'likes':32},
+            'PHP': {'pages': [],'views':64, 'likes':32},
+            'Prolog': {'pages': [],'views':64, 'likes':32},
+            'PostScript': {'pages': [],'views':64, 'likes':32},
+            'Programming': {'pages': [],'views':64, 'likes':32},
+            'Other Frameworks': {'pages': random_pages,'pages':other_pages, 'views':32, 'likes':16}}
 
     # The code below goes through the cats dictionary, then adds each category,
     # and then adds all the associated pages for that category
